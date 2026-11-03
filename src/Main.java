@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hospital project started");
+        Hospital h = new Hospital();
+        h.start();
     }
 }
