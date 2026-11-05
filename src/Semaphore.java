@@ -6,11 +6,13 @@ public class semaphore {
     public semaphore(int value) {
         this.value = value;
     }
-
+    // we use word synchronized ==> to only 1 thread can access this value in the same time
+    //put lock
     public synchronized void acquire() {
         value--;
         if (value < 0) {
             try {
+                //await remove lock from this object because the anther thread can release
                 wait();
             } catch (InterruptedException e) {
                 System.err.println(e.getMessage());

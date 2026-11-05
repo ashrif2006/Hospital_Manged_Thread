@@ -1,10 +1,10 @@
-
+//producer and consumer concept
 public class WaitingRoom {
 
-    private int capacity;
+    private int capacity; // number of patients allowed to be in the room
     private Patient patients[];
-    private int inPtr = 0;
-    private int outPtr = 0;
+    private int inPtr = 0; // مؤشر المكان الي المريض الجديد هيتحط فيه
+    private int outPtr = 0; // مؤشر المكان الي الدكتور هيسحب منو المريش
 
     private semaphore elements;
     private semaphore spaces;
@@ -15,7 +15,7 @@ public class WaitingRoom {
         patients = new Patient[size];
         elements = new semaphore(0);
         spaces = new semaphore(size);
-        mutex = new semaphore(1);
+        mutex = new semaphore(1); // to handle only 1 thread can access
     }
 
     public void addPatient(Patient p) {
@@ -40,7 +40,7 @@ public class WaitingRoom {
         Patient p = patients[outPtr];
         outPtr = (outPtr + 1) % capacity;
         mutex.release();
-        spaces.release();
+        spaces.release(); // notify for the aviable seat in the wating room
         return p;
     }
 

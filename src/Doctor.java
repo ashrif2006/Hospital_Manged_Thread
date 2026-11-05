@@ -17,17 +17,21 @@ public class Doctor extends Thread {
     @Override
     public void run() {
         while (true) {
-            Patient p = r.getPatient();
+
+            Patient p = r.getPatient(); // if the patient not in wating room element.acquire make the doctor wating
             System.out.println("Doctor: " + doctorId + " is assigned to Patient " + p.getId());
             System.out.println("Doctor: " + doctorId + " is trying to acquire a treatment room");
+            //بجاول احجز غرفه وهنتظر لمده 3 ثواني بس
             if (t.allocateRoom(3000)) {
                 System.out.println("Doctor: " + doctorId + " acquired a treatment room");
                 System.out.println("Doctor: " + doctorId + " begins treating Patient " + p.getId());
                 long starting = System.nanoTime();
-                int seconds = ThreadLocalRandom.current().nextInt(1, 5);
+                int seconds = ThreadLocalRandom.current().nextInt(1, 5);// time to access this patient
                 long nano = TimeUnit.SECONDS.toNanos(seconds);
-                while (System.nanoTime() - starting < nano) {
-                    // Treating
+                try {
+                    Thread.sleep(seconds * 1000L);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
                 // Finished
                 System.out.println("Patient: " + p.getId() + " left.");
